@@ -9,7 +9,7 @@ import Foundation
 
 //object called ChecklistItem with 2 data items
 //property = instance variable
-class ChecklistItem: NSObject {
+class ChecklistItem: NSObject, Codable {
     var text = ""
     var checked = false
     
