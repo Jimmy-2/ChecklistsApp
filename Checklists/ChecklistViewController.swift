@@ -52,12 +52,12 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     //list of checklist items displayed on the screen
     var items = [ChecklistItem]()
     
-    
+    var checklist: Checklist!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = true // makes title of navigation bar large
-        
+        navigationItem.largeTitleDisplayMode = .never
         /*
         // Do any additional setup after loading the view.
         let item1 = ChecklistItem()
@@ -89,6 +89,8 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         
         */
         loadChecklistItems()
+        
+        title = checklist.name
         
         //for debug purposes, showing where the data file is
         //print("Documents folder is \(documentsDirectory())")
