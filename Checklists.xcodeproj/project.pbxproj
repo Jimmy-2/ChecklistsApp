@@ -68,21 +68,45 @@
 		BF1DDD5C26F3E5DE008091B0 /* Checklists */ = {
 			isa = PBXGroup;
 			children = (
+				BF1DDD6B26F3E5E1008091B0 /* Info.plist */,
 				BF1DDD5D26F3E5DE008091B0 /* AppDelegate.swift */,
 				BF1DDD5F26F3E5DE008091B0 /* SceneDelegate.swift */,
-				BF1DDD6126F3E5DE008091B0 /* ChecklistViewController.swift */,
-				BF1DDD6326F3E5DE008091B0 /* Main.storyboard */,
-				BF1DDD6626F3E5E1008091B0 /* Assets.xcassets */,
-				BF1DDD6826F3E5E1008091B0 /* LaunchScreen.storyboard */,
-				BF1DDD6B26F3E5E1008091B0 /* Info.plist */,
-				BF1DDD7126F55AEA008091B0 /* ChecklistItem.swift */,
-				BF1DDD7326F5A450008091B0 /* ItemDetailViewController.swift */,
-				BFFCB74126FFBC76000A3CAA /* AllListsViewController.swift */,
-				BFFCB74326FFC8AB000A3CAA /* Checklist.swift */,
-				BFFCB74526FFD8CC000A3CAA /* ListDetailViewController.swift */,
-				BFFCB74727019030000A3CAA /* DataModel.swift */,
+				BF9A0D9E2702EFB700437953 /* Data Models */,
+				BF9A0DA02702F01100437953 /* Resources */,
+				BF9A0D9F2702EFE100437953 /* View Controllers */,
 			);
 			path = Checklists;
+			sourceTree = "<group>";
+		};
+		BF9A0D9E2702EFB700437953 /* Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				BFFCB74326FFC8AB000A3CAA /* Checklist.swift */,
+				BF1DDD7126F55AEA008091B0 /* ChecklistItem.swift */,
+				BFFCB74727019030000A3CAA /* DataModel.swift */,
+			);
+			path = "Data Models";
+			sourceTree = "<group>";
+		};
+		BF9A0D9F2702EFE100437953 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BFFCB74126FFBC76000A3CAA /* AllListsViewController.swift */,
+				BF1DDD6126F3E5DE008091B0 /* ChecklistViewController.swift */,
+				BF1DDD7326F5A450008091B0 /* ItemDetailViewController.swift */,
+				BFFCB74526FFD8CC000A3CAA /* ListDetailViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		BF9A0DA02702F01100437953 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BF1DDD6626F3E5E1008091B0 /* Assets.xcassets */,
+				BF1DDD6826F3E5E1008091B0 /* LaunchScreen.storyboard */,
+				BF1DDD6326F3E5DE008091B0 /* Main.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -6,14 +6,16 @@
 //
 
 import UIKit
-
-class AllListsViewController: UITableViewController, ListDetailViewControllerDelegate {
+//AllListsViewController is the deletegate for ListDetailViewController and UINavigationController and implicitly for UItableView
+class AllListsViewController: UITableViewController, ListDetailViewControllerDelegate, UINavigationControllerDelegate {
     
     let cellIdentifier = "ChecklistCell"
     
     //! is necessary because dataModel will temporarily be nil when app boots
     var dataModel: DataModel!
 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //enables large titles for this view controller
@@ -47,6 +49,43 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     }
     
     
+    //UIKit automatically calls this method after the view controller becomes visible
+    //viewdidappear is called everytime you land on the screen(main screen) while viewdidload is only called once when the app loads
+    override func viewDidAppear(_ animated: Bool) {
+      super.viewDidAppear(animated)
+
+      navigationController?.delegate = self
+        
+      //let index = UserDefaults.standard.integer(forKey: "ChecklistIndex") changed into
+      let index = dataModel.indexOfSelectedChecklist
+        
+        if index >= 0 && index < dataModel.lists.count {
+        let checklist = dataModel.lists[index]
+        performSegue(
+          withIdentifier: "ShowChecklist",
+          sender: checklist)
+      }
+        print("viewdidappear")
+    }
+
+    
+    // MARK: - Navigation Controller Delegates
+    
+    //this method is called whenever navigation controller shows a new screen
+    func navigationController(
+      _ navigationController: UINavigationController,
+      willShow viewController: UIViewController,
+      animated: Bool
+    ) {
+      // Was the back button tapped?
+      if viewController === self {
+        
+        //UserDefaults.standard.set(-1, forKey: "ChecklistIndex") changed into
+        dataModel.indexOfSelectedChecklist = -1
+      }
+        print("willshow")
+    }
+    
     
     
     // MARK: - Table view data source
@@ -73,6 +112,11 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     
     //this table view delegate method is evoked when a row is tapped
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //store index of selected row into UserDefaults under key "ChecklsitIndex"
+        //UserDefaults.standard.set(indexPath.row, forKey: "ChecklistIndex") changed into
+        dataModel.indexOfSelectedChecklist = indexPath.row
+        
         let checklist = dataModel.lists[indexPath.row]
         performSegue(withIdentifier: "ShowChecklist", sender: checklist)
     }
