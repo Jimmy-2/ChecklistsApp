@@ -21,7 +21,9 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         //enables large titles for this view controller
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        
+        //no longer using the following code due to needing ot use subtitle style for check count. However dequeueReuseableCell doesnt allow us to specify a custom table view cell style
+        //tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         
         //intializaers are written as:
         //var object = ObjectName(parameter1: value1, parameter2: value2,...)
@@ -46,6 +48,12 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         */
 
         
+    }
+    
+    //this method is called before viewDidAppear()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     
@@ -101,12 +109,34 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
+        let cell: UITableViewCell! //constant that will hold the newly created cell
+        if let tmp = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) {
+            cell = tmp
+        }else {
+            cell = UITableViewCell (style: .subtitle, reuseIdentifier: cellIdentifier)
+        }
+        
         //put some text into the cells so we can see the some text
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        //let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         let checklist = dataModel.lists[indexPath.row]
         cell.textLabel!.text = checklist.name
         cell.accessoryType = .detailDisclosureButton
         
+        //the cell's detailTextLabel property can be used to access the subtitle label
+        //cell.detailTextLabel!.text = "\(checklist.countUncheckedItems()) Remaining"
+        
+        let count = checklist.countUncheckedItems()
+        //checks if item count of checklist object is empty or not
+        //checklist.items.count is the total number of items in the checklist
+        if checklist.items.count == 0 {
+            cell.detailTextLabel!.text = "(No Items)"
+        }else {
+            //if statement happens (code after ? occurs) else (:)
+            cell.detailTextLabel!.text = count == 0 ? "All Done" : "\(count) Remaining"
+        }
+        
+        //sets icon to be equal to checklist.iconName(from Checklist.swift. currently "No Icon" icon)
+        cell.imageView!.image = UIImage(named: checklist.iconName)
         return cell
     }
     
@@ -175,6 +205,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
       _ controller: ListDetailViewController,
       didFinishAdding checklist: Checklist
     ) {
+        /*
         let newRowIndex = dataModel.lists.count
         dataModel.lists.append(checklist)
 
@@ -183,12 +214,24 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
       tableView.insertRows(at: indexPaths, with: .automatic)
         
         navigationController?.popViewController(animated: true)
+ 
+    */
+        
+        dataModel.lists.append(checklist)
+        dataModel.sortChecklists()
+        tableView.reloadData()
+        navigationController?.popViewController(animated: true)
     }
 
     func listDetailViewController(
       _ controller: ListDetailViewController,
       didFinishEditing checklist: Checklist
     ) {
+        dataModel.sortChecklists()
+        tableView.reloadData()
+        navigationController?.popViewController(animated: true)
+        
+        /*
         if let index = dataModel.lists.firstIndex(of: checklist) {
             let indexPath = IndexPath(row: index, section: 0)
             if let cell = tableView.cellForRow(at: indexPath) {
@@ -196,6 +239,8 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
             }
         }
         navigationController?.popViewController(animated: true)
+ 
+        */
     }
 
     

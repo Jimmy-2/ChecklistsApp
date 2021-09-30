@@ -5,7 +5,6 @@
 //  Created by Jimmy  on 9/25/21.
 //  View controller for the list of checklists screen
 
-import Foundation
 import UIKit
 
 protocol ListDetailViewControllerDelegate: AnyObject {
@@ -24,6 +23,8 @@ protocol ListDetailViewControllerDelegate: AnyObject {
 }
 
 class ListDetailViewController: UITableViewController, UITextFieldDelegate {
+    @IBOutlet weak var iconImage: UIImageView!
+    
     @IBOutlet var textField: UITextField!
     @IBOutlet var doneBarButton: UIBarButtonItem!
 
@@ -46,6 +47,7 @@ class ListDetailViewController: UITableViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         textField.becomeFirstResponder()
     }
+    
     
     // MARK: Actions
     //add actions methods for cancel and done buttons
@@ -76,8 +78,9 @@ class ListDetailViewController: UITableViewController, UITextFieldDelegate {
       _ tableView: UITableView,
       willSelectRowAt indexPath: IndexPath
     ) -> IndexPath? {
-      return nil
+      return indexPath.section == 1 ? indexPath : nil
     }
+
     
     // MARK: - Text Field Delegates
     // text field delegate methods that enable/disable the done button depending on wehter the text field is empty or not

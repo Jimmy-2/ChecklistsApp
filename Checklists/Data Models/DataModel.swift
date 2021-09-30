@@ -87,6 +87,7 @@ class DataModel {
     }
 
     // this method is now called loadChecklists()
+    //plist file is loaded here
     func loadChecklists() {
       let path = dataFilePath()
       if let data = try? Data(contentsOf: path) {
@@ -96,10 +97,19 @@ class DataModel {
           lists = try decoder.decode(
             [Checklist].self,
             from: data)
+            sortChecklists()
         } catch {
           print("Error decoding list array: \(error.localizedDescription)")
         }
       }
+    }
+    
+    //tell lists array to sort the Checklists it contains
+    func sortChecklists() {
+        //logic of the sorting method is changed in the { }
+        lists.sort{ list1, list2 in
+            return list1.name.localizedStandardCompare(list2.name) == .orderedAscending
+        }
     }
 
 }
